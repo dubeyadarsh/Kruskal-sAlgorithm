@@ -1,0 +1,60 @@
+package datastructures;
+
+import java.util.Arrays;
+import java.util.Scanner;
+class Edge implements Comparable<Edge> {
+	int source,dest,weight;
+
+	@Override
+	public int compareTo(Edge o) {
+		return this.weight-o.weight;
+	}
+}
+public class Kruskals {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter no. of vertices and edges");
+		int v=sc.nextInt();
+		int e=sc.nextInt();
+		Edge array[]=new Edge[e];
+		for(int i=0;i<e;i++) {
+			System.out.println("Enter values:");
+			array[i]=new Edge();
+			array[i].source=sc.nextInt();
+			array[i].dest=sc.nextInt();
+			array[i].weight=sc.nextInt();
+		}
+		kuruskals(array,v,e);
+
+	}
+   static void kuruskals(Edge[] array,int v,int e) {
+	   Arrays.sort(array);
+	   Edge op[]=new Edge[v-1];
+	   int k=0;
+	   int parent[]=new int[v];
+	   for(int i=0;i<v;i++) {
+		   parent[i]=i;
+		  }
+	   for(int i=0;i<e;i++) {
+		   if(k==v-1) break;
+		   Edge curr=array[i];
+		   int src=find(curr.source,parent);
+		   int dest=find(curr.dest,parent);
+		   if(src!=dest) {
+			   op[k]=curr;
+			   k++;
+			   parent[src]=dest;
+			   
+		   }
+	   }
+	   for(int i =0; i <op.length; i++)
+		   System.out.println(op[i].source + " ->" + op[i].dest + " ->" + op[i].weight);
+   }
+   static int find(int s,int[] parent) {
+	   if(parent[s]==s) {
+		   return s;
+	   }
+	   return find(parent[s],parent);
+   }
+}
